@@ -1,0 +1,18 @@
+Package: ecomon
+Title: ecomon - manage local data of NMFS-NEFSC ecomon database
+Description: Managing local repository of NMFS-NEFSC ecomon database.
+URL: https://github.com/BigelowLab/ecomon
+Version: 0.1
+Depends:
+    R (>= 4.1)
+Imports:
+    utils,
+    rlang,
+    dplyr,
+    readr,
+    sf
+Maintainer: Ben Tupper <btupper@bigelow.org>
+Author: Ben Tupper <btupper@bigelow.org>
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.1.2

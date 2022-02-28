@@ -1,0 +1,78 @@
+---
+title: "EcoMon"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+An R package to locally serve [EcoMon](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center) data. This package assists in the download of online datasets and simplifies local management.
+
+
+## Requirements
+
+ + [R v4.1+](https://www.r-project.org/)
+ 
+ + [rlang](https://CRAN.R-project.org/package=rlang)
+ 
+ + [dplyr](https://CRAN.R-project.org/package=dplyr)
+ 
+ + [readr](https://CRAN.R-project.org/package=readr)
+
+ + [sf](https://CRAN.R-project.org/package=sf)
+ 
+## Installation
+
+```
+remotes::install_github("BigelowLab/ecomon")
+```
+
+## Initial Use
+
+The premise of this package is that data may be stored in a single location but accessed by many users. To achieve this resource-friendly goal and still simplified access for each user, we need to inform the package where the data resides.  We do this by storing the path to the data location in each user's home directory in a hidden text file, "~/.ecomon".  That text file has just one line in it which contains the full path to the shared dataset.  For example, the author's contains `/mnt/ecocast/coredata/noaa/nmfs/nefsc` which points to a shared network drive mounted on our linux platform.  
+
+When the package is first loaded (ala `library(ecomon)`) the existence of the file is check, and if missing a warning is issued.
+
+You can create and populate that `~/.ecomon` using a text editors, or you can create using the provided function `set_data_path()`. Here is how the author created his own...
+
+```
+library(ecomon)
+ecomon::set_data_path("/mnt/ecocast/coredata/noaa/nefsc")
+```
+
+That's it.  If you ever move the data you'll have to modify the contents of this hidden text file.
+
+## Fetching new data
+ 
+At the time of this writing there is only one data set, [0187513](https://www.ncei.noaa.gov/archive/accession/download/0187513) to download.  So...
+
+```
+library(ecomon)
+ok <- fetch_ecomon(id = "0187513")
+```
+
+Now the data directory will contain a subdirectory name `0187513` which we can list... 
+
+```{r}
+library(ecomon)
+ff <- list_data(id = "0187513")
+head(ff)
+```
+OK - it only has one file of interest.
+
+## Reading local data
+
+It's is very simple to read the data into a data frame (well, a tibble actually). Make your request by `id`...
+
+```{r}
+x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE)
+dplyr::glimpse(x)
+```
+
+Alternatively, you can read the data in as a [sf](https://CRAN.R-project.org/package=sf) POINT object.
+
+```{r}
+x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE, form = 'sf')
+plot(x['btm_salt'], axes = TRUE, pch = ".")
+```

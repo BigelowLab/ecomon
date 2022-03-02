@@ -42,7 +42,7 @@ you can create using the provided function `set_data_path()`. Here is
 how the author created his own…
 
     library(ecomon)
-    ecomon::set_data_path("/mnt/ecocast/coredata/noaa/nefsc")
+    ecomon::set_data_path("/mnt/ecocast/coredata/noaa/nmfs/nefsc")
 
 That’s it. If you ever move the data you’ll have to modify the contents
 of this hidden text file.

@@ -38,7 +38,7 @@ You can create and populate that `~/.ecomon` using a text editors, or you can cr
 
 ```
 library(ecomon)
-ecomon::set_data_path("/mnt/ecocast/coredata/noaa/nefsc")
+ecomon::set_data_path("/mnt/ecocast/coredata/noaa/nmfs/nefsc")
 ```
 
 That's it.  If you ever move the data you'll have to modify the contents of this hidden text file.

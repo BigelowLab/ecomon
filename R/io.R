@@ -155,7 +155,8 @@ read_ecomon <- function(filename = list_data(id = "0187513"),
 #' @param filename file specification
 #' @param form character either 'tibble' or 'sf'
 #' @return tibble or sf Points object
-read_cross <- function(filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2019_10m2.csv")){
+read_cross <- function(filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2019_10m2.csv"),
+                       form = c("tibble", "sf")[1]){
  
   x <- readr::read_csv(filename, 
     col_types = readr::cols(

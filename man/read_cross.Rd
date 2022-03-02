@@ -5,7 +5,8 @@
 \title{Read the special file provided to C Ross}
 \usage{
 read_cross(
-  filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2019_10m2.csv")
+  filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2019_10m2.csv"),
+  form = c("tibble", "sf")[1]
 )
 }
 \arguments{

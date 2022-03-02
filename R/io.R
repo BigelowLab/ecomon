@@ -161,7 +161,7 @@ read_cross <- function(filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2
   x <- readr::read_csv(filename, 
     col_types = readr::cols(
       cruise_name = readr::col_character(),
-      station = readr::col_character(),
+      station = readr::col_double(),
       latitude = readr::col_double(),
       longitude = readr::col_double(),
       date = readr::col_date(format = "%d-%b-%y"),

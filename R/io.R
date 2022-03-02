@@ -146,3 +146,40 @@ read_ecomon <- function(filename = list_data(id = "0187513"),
   }
   x
 }
+
+
+
+#' Read the special file provided to C Ross
+#' 
+#' @export
+#' @param filename file specification
+#' @param form character either 'tibble' or 'sf'
+#' @return tibble or sf Points object
+read_cross <- function(filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2019_10m2.csv")){
+ 
+  x <- readr::read_csv(filename, 
+    col_types = readr::cols(
+      cruise_name = readr::col_character(),
+      station = readr::col_character(),
+      latitude = readr::col_double(),
+      longitude = readr::col_double(),
+      date = readr::col_date(format = "%d-%b-%y"),
+      sta_depth = readr::col_double(),
+      tow_depth = readr::col_double(),
+      gear_volume_filtered = readr::col_double(),
+      zoo_aliquot = readr::col_double(),
+      total_10m2 = readr::col_double(),
+      c6_10m2 = readr::col_double(),
+      c5_10m2 = readr::col_double(),
+      c4_10m2 = readr::col_double(),
+      c3_10m2 = readr::col_double(),
+      c2_10m2 = readr::col_double(),
+      c1_10m2 = readr::col_double(),
+      unk_10m2 = readr::col_double()),
+    na = c("", "NA", "#DIV/0!"))
+  
+  if (tolower(form[1]) == 'sf'){
+    x <- sf::st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326)
+  }
+  x
+}

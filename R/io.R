@@ -184,3 +184,82 @@ read_cross <- function(filename = get_data_path("EcoMon_CalfinStage_Thru_12_30_2
   }
   x
 }
+
+
+#' Given a species, retirve the name of the staged species file
+#' 
+#' @export
+#' @param species char, the species to read
+#' @param path char, the path to the species staged data
+#' @param must_exist logical, if TRUE test for the existence of the file, throw an
+#'   error if not found
+#' @return character, file specification
+staged_filename <- function(species = "calfin",
+                            path = get_data_path("staged"),
+                            must_exist = TRUE){
+  sp <- tolower(species[1])
+  filename <- switch(sp,
+    "foo" = "foo.csv",
+    { # here we pattern match and then select the most recently modified 
+      # file which is a terrible system but works for now
+      
+      # first get the csv files
+      ff <- list.files(path, pattern =  "^.*\\.csv$")
+      # now the species files
+      ix <- grep(sp, tolower(ff), fixed = TRUE)
+      # now get the most recently modified one
+      ff <- file.path(path, ff[ix])
+      fi <- file.info(ff) |> 
+        dplyr::as_tibble(rownames = "filename") |>
+        dplyr::arrange(dplyr::desc(.data$mtime))
+      filename <- basename(fi$filename[1])
+    }) 
+  filename <- file.path(path, filename)
+  if (must_exist && !file.exists(filename[1])){
+      stop("species file not found:", species)
+  }
+  filename
+}
+
+#' Read the staged data provided via 2022-03-03 personal communication (to modeling group)
+#' by Harvey Walsh 
+#' 
+#' @export
+#' @param species character, the species to read
+#' @param form character either 'tibble' or 'sf'
+#' @param ... other arguments for \code{\link{staged_filename}}
+#' @return tibble or sf Points object
+read_staged <- function(species = "calfin",
+                       form = c("tibble", "sf")[1],
+                       ...){
+  
+  filename <- staged_filename(species, ...)
+  
+  # known to work with calfin
+  x <- readr::read_csv(filename, 
+                       col_types = readr::cols(
+                         seq = readr::col_double(),
+                         cruise_name = readr::col_character(),
+                         station = readr::col_double(),
+                         latitude = readr::col_double(),
+                         longitude = readr::col_double(),
+                         date = readr::col_date(format = "%d-%b-%y"),
+                         sta_depth = readr::col_double(),
+                         tow_depth = readr::col_double(),
+                         gear_volume_filtered = readr::col_double(),
+                         zoo_aliquot = readr::col_double(),
+                         total_10m2 = readr::col_double(),
+                         c6_10m2 = readr::col_double(),
+                         c5_10m2 = readr::col_double(),
+                         c4_10m2 = readr::col_double(),
+                         c3_10m2 = readr::col_double(),
+                         c2_10m2 = readr::col_double(),
+                         c1_10m2 = readr::col_double(),
+                         unk_10m2 = readr::col_double()),
+                       na = c("", "NA", "#DIV/0!"))
+  
+  if (tolower(form[1]) == 'sf'){
+    x <- sf::st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326)
+  }
+  x
+}

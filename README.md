@@ -4,7 +4,12 @@ EcoMon
 An R package to locally serve
 [EcoMon](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center)
 data. This package assists in the download of online datasets and
-simplifies local management.
+simplifies local management. Note that this dataset provides
+**unstaged** data.
+
+The package includes functionality for working with **staged** datasets
+by species. These datasets may be made available upon request from
+[NEFSC](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center).
 
 ## Requirements
 
@@ -47,7 +52,7 @@ how the author created his own…
 That’s it. If you ever move the data you’ll have to modify the contents
 of this hidden text file.
 
-## Fetching new data
+## Fetching new **unstaged** data from [EcoMon](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center)
 
 At the time of this writing there is only one data set,
 [0187513](https://www.ncei.noaa.gov/archive/accession/download/0187513)
@@ -69,10 +74,21 @@ head(ff)
 
 OK - it only has one file of interest.
 
-## Reading local data
+## Working with **staged** data obtained by request
+
+These come in Excel format which must be exported to CSV. These should
+have somewhere in the filename the name of the species. Place a copy of
+the CSV into the “staged” subdirectory of your data path. If you don’t
+have a “staged” directory then make one. You may have older versions of
+the CSV for a given species. In that case the software assumes the most
+recently modified file is the correct one, but you can override the
+filename.
+
+## Reading local **unstaged** data
 
 It’s is very simple to read the data into a data frame (well, a tibble
-actually). Make your request by `id`…
+actually). Make your request by `id` (yes, we only know of one ecomon
+dataset, but hope springs eternal…)
 
 ``` r
 x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE)
@@ -105,3 +121,18 @@ plot(x['btm_salt'], axes = TRUE, pch = ".")
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+## Reading local **staged** data
+
+Read the data into a data frame (`tibble`) or `sf` object by species
+name.
+
+``` r
+x <- read_staged(species = "calfin", form = "sf")
+plot(x['gear_volume_filtered'], axes = TRUE, pch = ".", logz = TRUE)
+```
+
+    ## Warning in classInt::classIntervals(v0, min(nbreaks, n.unq), breaks, warnSmallN
+    ## = FALSE): var has infinite values, omitted in finding classes
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->

@@ -263,3 +263,57 @@ read_staged <- function(species = "calfin",
   }
   x
 }
+
+
+#' Read NOAA CTD table provided by personal communication by Chris Melrose to Chris Orphanides 
+#'
+#' @export
+#' @param path character, the path to the data
+#' @param simplify logical, if TRUE simply the dataset
+#' @param form character, one of 'tibble' or 'sf'
+#' @param match_cruise NULL or data frame (tibble), if not \code{NULL}
+#'   then filter the output to match the cruise IDs in the match_cruise
+#'   object.
+#' @return 'tibble' or 'sf' object
+read_ctd <- function(path = get_data_path("ctd"),
+                     match_cruise = NULL,
+                     form = c("tibble", "sf")[1]){
+  
+  columns <- list(
+    CRUISE_ID = readr::col_character(),
+    STA = readr::col_character(),
+    SITE_ID = readr::col_double(),
+    CAST = readr::col_character(),
+    GEAR_TYPE = readr::col_character(),
+    PURPOSE_CODE = readr::col_double(),
+    OPSID = readr::col_character(),
+    GMT_DATE = readr::col_date(format = "%d-%b-%y"),
+    GMT_TIME = readr::col_double(),
+    LAT_DD = readr::col_double(),
+    LON_DD = readr::col_double(),
+    PRES = readr::col_double(),
+    TEMP = readr::col_double(),
+    SALT = readr::col_double(),
+    O2 = readr::col_double(),
+    CHLOROPHYLL = readr::col_double(),
+    CHL_FL = readr::col_double(),
+    PAR_SENSOR = readr::col_double(),
+    STA_BTM_DEPTH = readr::col_double()
+  )
+  
+  filename <- file.path(path, "noaa_ctd.csv.gz")
+  
+  x <- readr::read_csv(filename,
+                       col_names = names(columns),
+                       col_types = columns,
+                       skip = 1)
+  if (!is.null(match_cruise)){
+    stopifnot("cruise_name" %in% colnames(match_cruise))
+    x <- dplyr::filter(x, .data$CRUISE_ID %in% match_cruise$cruise_name)
+  }
+  if (tolower(form[1]) == 'sf'){
+    x <- sf::st_as_sf(x, coords = c("LON_DD", "LAT_DD"), crs = 4326)
+  }
+  
+  x
+}

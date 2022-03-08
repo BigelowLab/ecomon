@@ -11,6 +11,10 @@ The package includes functionality for working with **staged** datasets
 by species. These datasets may be made available upon request from
 [NEFSC](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center).
 
+Finally, the package includes functionality to read NOAA’s CTD table for
+cruises located within the extent of the ecomon project. The data are
+provided via personal communication.
+
 ## Requirements
 
 -   [R v4.1+](https://www.r-project.org/)
@@ -84,6 +88,12 @@ the CSV for a given species. In that case the software assumes the most
 recently modified file is the correct one, but you can override the
 filename.
 
+## Working with CTD tabular data obtained by request
+
+This comes in a CSV file which should be rewritten as “noaa_ctd.csv.gz”
+(hint: use `readr::write_csv(x, "/path/to/noaa_ctd.csv.gz")`). Place
+this file into a subdirectory called “ctd” in your data path.
+
 ## Reading local **unstaged** data
 
 It’s is very simple to read the data into a data frame (well, a tibble
@@ -136,3 +146,17 @@ plot(x['gear_volume_filtered'], axes = TRUE, pch = ".", logz = TRUE)
     ## = FALSE): var has infinite values, omitted in finding classes
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+## Reading local CTD data
+
+Read the data into a data frame (tibble) of `sf` object. There are many
+more cruises in the ctd data than in the staged data, so you can use the
+staged data to filter the ctd to a more manageable size.
+
+``` r
+# x is staged data from above
+ctd <- read_ctd(match_cruise = x, form = "sf")
+plot(ctd['GEAR_TYPE'], axes = TRUE, pch = ".", key.pos = 1)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->

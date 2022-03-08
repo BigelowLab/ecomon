@@ -11,6 +11,7 @@ An R package to locally serve [EcoMon](https://www.fisheries.noaa.gov/about/nort
 
 The package includes functionality for working with **staged** datasets by species.  These datasets may be  made available upon request from [NEFSC](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center). 
 
+Finally, the package includes functionality to read NOAA's CTD table for cruises located within the extent of the ecomon project. The data are provided via personal communication.
 
 ## Requirements
 
@@ -67,6 +68,10 @@ OK - it only has one file of interest.
 
 These come in Excel format which must be exported to CSV.  These should have somewhere in the filename the name of the species.  Place a copy of the CSV into the "staged" subdirectory of your data path. If you don't have a "staged" directory then make one. You may have older versions of the CSV for a given species.  In that case the software assumes the most recently modified file is the correct one, but you can override the filename.
 
+## Working with CTD tabular data obtained by request
+
+This comes in a CSV file which should be rewritten as "noaa_ctd.csv.gz" (hint: use `readr::write_csv(x, "/path/to/noaa_ctd.csv.gz")`).  Place this file into a subdirectory called "ctd" in your data path.
+
 ## Reading local **unstaged** data
 
 It's is very simple to read the data into a data frame (well, a tibble actually). Make your request by `id` (yes, we only know of one ecomon dataset, but hope springs eternal...)
@@ -90,4 +95,14 @@ Read the data into a data frame (`tibble`) or `sf` object by species name.
 ```{r}
 x <- read_staged(species = "calfin", form = "sf")
 plot(x['gear_volume_filtered'], axes = TRUE, pch = ".", logz = TRUE)
+```
+
+## Reading local CTD data
+
+Read the data into a data frame (tibble) of `sf` object.  There are many more cruises in the ctd data than in the staged data, so you can use the staged data to filter the ctd to a more manageable size.
+
+```{r}
+# x is staged data from above
+ctd <- read_ctd(match_cruise = x, form = "sf")
+plot(ctd['GEAR_TYPE'], axes = TRUE, pch = ".", key.pos = 1)
 ```

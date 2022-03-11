@@ -1,0 +1,28 @@
+---
+title: "International Transforms"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+> The two meshes sample different sizes, but the underlying assumption is that they’re > both sampling stages C4-6 the same. So to do this calibration, we need the staged > data.
+> 
+> From there, we only use C4, C5, and C6, and the total biomass, for C. finmarchicus, > comes from Sorochan’s table II. 
+> 
+> For example, for Scotian Shelf / Gulf of Maine, the total biomass is = 69 * c4 + 195 *  c5 + 261 * c6  (µg per unit area sampled).
+> 
+> The numbers are different for the Gulf of St Lawrence. This sharp line could be an > issue, but it should be diminished by going to a threshold model, like we do.
+> 
+> If we’re using a threshold of 10000 ind per m2, this could range from 690,000 to > 2,610,000 µg / m2. So we’ll need to choose the threshold a bit differently. In our > 2019 paper, the threshold was more like 40,000 ind per m2, but that would be just c5s > mostly, which would give 7,800,000 µg / m2. Wow!
+> 
+> It does seem more relevant to foraging to use biomass than number of individuals, so > this in theory should be an improvement.
+> 
+> In any case, we should be able to use the parameters in that table II to get a > baseline total dry weight.
+> 
+> There is a second step, which is their “temperature penalized” dry weight. So if we > have temperature, we can further modify the dry weights to capture this temperature > size relationship. Is that in Caroline’s code at all?
+> 
+> In any case, what we’re doing, basically, is going from numbers of animals to biomass. > But the basic assumption, as far as I can tell, is that both nets are capturing C4-C6 > equally. So… in theory, we should also be able to sum these stages in both cases to > get a total number of individuals that is comparable across the two sampling programs.
+> 
+> I’d like to confirm my understanding with Stéphane and Caroline on monday.> 

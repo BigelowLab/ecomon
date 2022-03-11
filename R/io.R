@@ -317,3 +317,16 @@ read_ctd <- function(path = get_data_path("ctd"),
   
   x
 }
+
+#' Read data from the Sorochan paper
+#' 
+#' @export
+#' @param what character, the name of the item to read
+#' @return tibble
+Sorochan <- function(what = "table_1"){
+  filename <- system.file(
+    switch(tolower(what[1]),
+           "table_1" = "extdata/Sorochan-table_1.csv"),
+    package = "ecomon")
+  readr::read_csv(filename, show_col_types = FALSE)
+}

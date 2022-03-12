@@ -4,10 +4,12 @@
 \alias{Sorochan}
 \title{Read data from the Sorochan paper}
 \usage{
-Sorochan(what = "table_1")
+Sorochan(what = "table_1", taxa = c("all", "C. finmarchicus")[1])
 }
 \arguments{
 \item{what}{character, the name of the item to read}
+
+\item{taxa}{character, one or more taxa to filter or "all" for all}
 }
 \value{
 tibble

@@ -322,11 +322,17 @@ read_ctd <- function(path = get_data_path("ctd"),
 #' 
 #' @export
 #' @param what character, the name of the item to read
+#' @param taxa character, one or more taxa to filter or "all" for all
 #' @return tibble
-Sorochan <- function(what = "table_1"){
+Sorochan <- function(what = "table_1",
+                     taxa = c("all", "C. finmarchicus")[1]){
   filename <- system.file(
     switch(tolower(what[1]),
            "table_1" = "extdata/Sorochan-table_1.csv"),
     package = "ecomon")
-  readr::read_csv(filename, show_col_types = FALSE)
+  x <- readr::read_csv(filename, show_col_types = FALSE)
+  if (!any("all" %in% taxa)){
+    x <- dplyr::filter(x, .data$taxon %in% taxa)
+  }
+  x
 }

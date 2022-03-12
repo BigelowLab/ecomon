@@ -15,8 +15,8 @@ add_biomass <- function(x = read_staged(form = "sf"),
   }
   params <- dplyr::filter(params, .data$applied %in% region)
   
-  biomass <- x$c4_10m2 * params$CIV[1] + 
-             x$c5_10m2 * params$CV[1] + 
-             x$c6_10m2 * params$CVI[1]
-  dplyr::mutate(x, biomass = biomass, .before= "geometry")
+  biomass <- x$c4_10m2/10 * params$CIV[1] + 
+             x$c5_10m2/10 * params$CV[1] + 
+             x$c6_10m2/10 * params$CVI[1]
+  dplyr::mutate(x, biomass = biomass, .before = dplyr::last_col())
 }

@@ -7,6 +7,16 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(ecomon)
+x <- read_staged() |>
+  add_biomass() |>
+  dplyr::filter(biomass > 0)
+hist(log10(x$biomass))
+```
+
+
+
 > The two meshes sample different sizes, but the underlying assumption is that they’re > both sampling stages C4-6 the same. So to do this calibration, we need the staged > data.
 > 
 > From there, we only use C4, C5, and C6, and the total biomass, for C. finmarchicus, > comes from Sorochan’s table II. 

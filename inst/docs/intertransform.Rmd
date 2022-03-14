@@ -8,13 +8,22 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(ecomon)
-x <- read_staged() |>
-  add_biomass() |>
+suppressPackageStartupMessages({
+  library(ecomon)
+  library(dplyr)
+  library(sf)
+})
+
+sorochan <- Sorochan(taxa = "C. finmarchicus")
+x <- read_staged(form = 'sf') |>
+  add_biomass(region = "GoM-GBK, SS",
+              params = sorochan) |>
   dplyr::filter(biomass > 0)
 hist(log10(x$biomass))
 ```
-
+```{r}
+plot(x['biomass'], logz = TRUE, axes = TRUE, pch = ".")
+```
 
 
 > The two meshes sample different sizes, but the underlying assumption is that they’re > both sampling stages C4-6 the same. So to do this calibration, we need the staged > data.

@@ -7,7 +7,7 @@
 list_data(
   id = "0187513",
   most_recent = TRUE,
-  version = "1.1",
+  version = c("2.2", "recent")[2],
   dataset = "0-data",
   path = get_data_path()
 )
@@ -15,9 +15,7 @@ list_data(
 \arguments{
 \item{id}{character, the accession id of the data set ala "0187513"}
 
-\item{most_recent}{logical, if TRUE return the dataset with highest verion number}
-
-\item{version}{character, defaults to "1.1"}
+\item{version}{character, defaults to "recent" but could be "1.1", "2.2", etc}
 
 \item{dataset}{character, one "0-data" (default) or "1-data"}
 

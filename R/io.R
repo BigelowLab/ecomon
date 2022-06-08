@@ -101,6 +101,7 @@ read_ecomon_one <- function(filename,
                                    show_col_types = FALSE)) 
 }
 
+
 #' Read a ecomon data - trim to bare necessities
 #'
 #' @export
@@ -147,7 +148,30 @@ read_ecomon <- function(filename = list_data(id = "0187513"),
   x
 }
 
-
+#' Scales ecomon units 
+#' 
+#' @export
+#' @param x df, table of ecomon data
+#' @param scale named vector, desired scale factor named by key pattern 
+#' @param rename named vector, desired new pattern named by old pattern
+#' @return df, ecomon dataset scaled as desired
+scale_ecomon <- function(x = read_ecomon(simplify = FALSE),
+                         scale = c("_10m2" = 10, "_100m3" = 100),
+                         rename = c("_10m2" = "_m2", "_100m3" = "_m3")) {
+  
+  do_1 <- function(x, scale = c("_10m2" = 10), rename = c("_10m2" = "_m2")) {
+    x |>
+      dplyr::mutate(dplyr::across(dplyr::contains(names(scale)), ~.x/scale)) |>
+      rlang::set_names(gsub(names(rename), rename, colnames(x), fixed = TRUE))
+  }
+  
+  for(i in seq_along(scale)) {
+    x <- x |>
+      do_1(scale = scale[i], rename = rename[i])
+  }
+  
+  x
+}
 
 #' Read the special file provided to C Ross
 #' 

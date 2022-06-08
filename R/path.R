@@ -31,23 +31,27 @@ get_data_path <- function(...,
 #'
 #' @export
 #' @param id character, the accession id of the data set ala "0187513"
-#' @param most_recent logical, if TRUE return the dataset with highest verion number
-#' @param version character, defaults to "1.1"
+#' @param version character, defaults to "recent" but could be "1.1", "2.2", etc
 #' @param dataset character, one "0-data" (default) or "1-data"
 #' @param path character the root path 
 #' @return character vector of filenames
 list_data <- function(id = "0187513",
                       most_recent = TRUE,
-                      version = "1.1",
+                      version = c("2.2", "recent")[2],
                       dataset = "0-data",
                       path = get_data_path()){
   # /mnt/ecocast/coredata/noaa/nmfs/nefsc/0187513/1.1/data/0-data/EcoMon_Plankton_Data_v3_5.csv                    
   pattern = "^EcoMon_Plankton_Data_.*\\.csv$"
-  p <- file.path(path, id, version, "data", dataset)
+  if (tolower(version[1]) == "recent"){
+    p <- file.path(path, id)
+  } else {
+    p <- file.path(path, id, version[1], "data", dataset)
+  }
+
   ff <- list.files(p,
              pattern = pattern,
              full.names = TRUE,
              recursive = TRUE)
-  if (most_recent) ff <- ff[length(ff)]
+  if (version == "recent") ff <- ff[length(ff)]
   ff
 }

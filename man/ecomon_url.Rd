@@ -6,11 +6,15 @@
 \usage{
 ecomon_url(
   id = "0187513",
-  base_url = "https://www.ncei.noaa.gov/archive/accession/download"
+  version = "2.2",
+  base_url = file.path("https://www.ncei.noaa.gov/archive",
+    "archive-management-system/OAS/bin/prd/jquery/download")
 )
 }
 \arguments{
 \item{id}{char, a dataset id like '0187513'}
+
+\item{version}{character, defaults to "2.2" but could be "1.1"}
 
 \item{base_url}{char, the root path to NCEI datasets}
 }

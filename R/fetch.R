@@ -2,13 +2,16 @@
 #' 
 #' @export
 #' @param id char, a dataset id like '0187513' 
+#' @param version character, defaults to "2.2" but could be "1.1"
 #' @param base_url char, the root path to NCEI datasets
 #' @return chaacter URL
 ecomon_url <- function(id = "0187513", 
-                     base_url = "https://www.ncei.noaa.gov/archive/accession/download"){
-  
-  # https://www.ncei.noaa.gov/archive/accession/download/187513
-  file.path(base_url, id)
+                       version = "2.2",
+                       base_url = file.path("https://www.ncei.noaa.gov/archive",
+                                            "archive-management-system/OAS/bin/prd/jquery/download")){
+  # https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/download/187513.1.1.tar.gz
+  # https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/download/187513.2.2.tar.gz
+  file.path(base_url, sprintf("%i.%s.tar.gz", as.numeric(id), version))
 }
 
 #' Fecth EcoMon data from NCEI

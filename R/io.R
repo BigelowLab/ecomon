@@ -251,10 +251,12 @@ staged_filename <- function(species = "calfin",
 #' @export
 #' @param species character, the species to read
 #' @param form character either 'tibble' or 'sf'
+#' @param scale boolean, should we scale units?
 #' @param ... other arguments for \code{\link{staged_filename}}
 #' @return tibble or sf Points object
 read_staged <- function(species = "calfin",
                        form = c("tibble", "sf")[1],
+                       scale = TRUE,
                        ...){
   
   filename <- staged_filename(species, ...)
@@ -281,10 +283,13 @@ read_staged <- function(species = "calfin",
                          c1_10m2 = readr::col_double(),
                          unk_10m2 = readr::col_double()),
                        na = c("", "NA", "#DIV/0!"))
-  
+  if (scale) {
+    x <- scale_ecomon(x)
+  }
   if (tolower(form[1]) == 'sf'){
     x <- sf::st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326)
   }
+  
   x
 }
 

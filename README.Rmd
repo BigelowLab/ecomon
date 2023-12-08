@@ -77,8 +77,8 @@ This comes in a CSV file which should be rewritten as "noaa_ctd.csv.gz" (hint: u
 It's is very simple to read the data into a data frame (well, a tibble actually). Make your request by `id` (yes, we only know of one ecomon dataset, but hope springs eternal...)
 
 ```{r}
-x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE)
-dplyr::glimpse(x)
+x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE) |>
+  dplyr::glimpse()
 ```
 
 Alternatively, you can read the data in as a [sf](https://CRAN.R-project.org/package=sf) POINT object.
@@ -87,6 +87,8 @@ Alternatively, you can read the data in as a [sf](https://CRAN.R-project.org/pac
 x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE, form = 'sf')
 plot(x['btm_salt'], axes = TRUE, pch = ".")
 ```
+The data, currently v3.3, has this date range:  `r range(x$date)`
+
 
 ## Reading local **staged** data
 

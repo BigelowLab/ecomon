@@ -101,8 +101,8 @@ actually). Make your request by `id` (yes, we only know of one ecomon
 dataset, but hope springs eternal…)
 
 ``` r
-x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE)
-dplyr::glimpse(x)
+x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE) |>
+  dplyr::glimpse()
 ```
 
     ## Rows: 32,693
@@ -130,7 +130,8 @@ x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE, form = 'sf')
 plot(x['btm_salt'], axes = TRUE, pch = ".")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- --> The data,
+currently v3.3, has this date range: 1977-02-13, 2021-11-15
 
 ## Reading local **staged** data
 

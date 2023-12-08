@@ -17,15 +17,15 @@ provided via personal communication.
 
 ## Requirements
 
--   [R v4.1+](https://www.r-project.org/)
+- [R v4.1+](https://www.r-project.org/)
 
--   [rlang](https://CRAN.R-project.org/package=rlang)
+- [rlang](https://CRAN.R-project.org/package=rlang)
 
--   [dplyr](https://CRAN.R-project.org/package=dplyr)
+- [dplyr](https://CRAN.R-project.org/package=dplyr)
 
--   [readr](https://CRAN.R-project.org/package=readr)
+- [readr](https://CRAN.R-project.org/package=readr)
 
--   [sf](https://CRAN.R-project.org/package=sf)
+- [sf](https://CRAN.R-project.org/package=sf)
 
 ## Installation
 
@@ -38,7 +38,7 @@ location but accessed by many users. To achieve this resource-friendly
 goal and still simplified access for each user, we need to inform the
 package where the data resides. We do this by storing the path to the
 data location in each user’s home directory in a hidden text file,
-“\~/.ecomon”. That text file has just one line in it which contains the
+“~/.ecomon”. That text file has just one line in it which contains the
 full path to the shared dataset. For example, the author’s contains
 `/mnt/ecocast/coredata/noaa/nmfs/nefsc` which points to a shared network
 drive mounted on our linux platform.
@@ -74,7 +74,7 @@ ff <- list_data(id = "0187513")
 head(ff)
 ```
 
-    ## [1] "/mnt/ecocast/coredata/noaa/nmfs/nefsc/0187513/1.1/data/0-data/EcoMon_Plankton_Data_v3_5.csv"
+    ## [1] "/mnt/ecocast/coredata/noaa/nmfs/nefsc/0187513/3.3/data/0-data/EcoMon_Plankton_Data_v3_8.csv"
 
 OK - it only has one file of interest.
 
@@ -105,7 +105,7 @@ x <- read_ecomon(list_data(id = "0187513"), simplify = TRUE)
 dplyr::glimpse(x)
 ```
 
-    ## Rows: 31,351
+    ## Rows: 32,693
     ## Columns: 14
     ## $ cruise_name <chr> "AA8704", "AA8704", "AA8704", "AA8704", "AA8704", "AA8704"…
     ## $ station     <dbl> 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56…
@@ -120,7 +120,7 @@ dplyr::glimpse(x)
     ## $ sfc_salt    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ btm_temp    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ btm_salt    <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-    ## $ volume_1m2  <dbl> 19, 17, 12, 6, 4, 9, 10, 55, 57, 7, 15, 3, 13, 11, 13, 15,…
+    ## $ volume_1m2  <dbl> 18.91, 16.72, 12.32, 6.03, 3.50, 8.60, 9.87, 55.40, 57.48,…
 
 Alternatively, you can read the data in as a
 [sf](https://CRAN.R-project.org/package=sf) POINT object.

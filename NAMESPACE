@@ -3,6 +3,7 @@
 export(Sorochan)
 export(add_biomass)
 export(ecomon_cols)
+export(ecomon_species)
 export(ecomon_url)
 export(fetch_ecomon)
 export(get_data_path)

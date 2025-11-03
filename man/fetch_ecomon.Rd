@@ -8,7 +8,8 @@ fetch_ecomon(
   id = "0187513",
   dest = get_data_path(),
   decompress = TRUE,
-  cleanup = decompress
+  cleanup = decompress,
+  ...
 )
 }
 \arguments{
@@ -20,6 +21,13 @@ fetch_ecomon(
 
 \item{cleanup}{logical, if TRUE remove the downloaded zip file. Ignored unless
 \code{decompress} is \code{TRUE}}
+
+\item{...}{
+  Arguments passed on to \code{\link[=ecomon_url]{ecomon_url}}
+  \describe{
+    \item{\code{version}}{character, defaults to "2.2" but could be "1.1"}
+    \item{\code{base_url}}{char, the root path to NCEI datasets}
+  }}
 }
 \value{
 the result of \code{\link[utils]{download.file}}

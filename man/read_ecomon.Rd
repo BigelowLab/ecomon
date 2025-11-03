@@ -7,9 +7,9 @@
 read_ecomon(
   filename = list_data(id = "0187513"),
   simplify = TRUE,
-  select_vars = c("cruise_name", "station", "zoo_gear", "ich_gear", "lat", "lon",
-    "date", "time", "depth", "sfc_temp", "sfc_salt", "btm_temp", "btm_salt",
-    "volume_1m2"),
+  select_vars = c("cruise_name", "station", "zoo_gear", "ich_gear", "lat", "lon", "date",
+    "time", "depth", "sfc_temp", "sfc_salt", "btm_temp", "btm_salt", "volume_1m2"),
+  species = NULL,
   form = c("tibble", "sf")[1]
 )
 }
@@ -21,6 +21,10 @@ individual tables are row bound into one.}
 
 \item{select_vars}{character, the columns to select if simplyfing.  Ignored
 unless \code{simplify = TRUE}.}
+
+\item{species}{chr, one or more species shortnames to retrieve, or NULL to 
+get them all when simplify is FALSE.  You can peruse the short names 
+using `ecomon_species()`}
 
 \item{form}{character either 'tibble' or 'sf'}
 }

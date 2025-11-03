@@ -6,7 +6,7 @@
 \usage{
 ecomon_url(
   id = "0187513",
-  version = "2.2",
+  version = "3.3",
   base_url = file.path("https://www.ncei.noaa.gov/archive",
     "archive-management-system/OAS/bin/prd/jquery/download")
 )

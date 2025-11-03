@@ -89,6 +89,12 @@ plot(x['btm_salt'], axes = TRUE, pch = ".")
 ```
 The data, currently v3.3, has this date range:  `r range(x$date)`
 
+Of course, you may be interested in the actual abundance (per m^2 or per 100m^3) for a subset of species. Since there is just one data source at this time, it reads that by default.
+
+```{r}
+y = read_ecomon(simplify = FALSE, species = c("mysids", "lopame")) |>
+  dplyr::glimpse()
+```
 
 ## Reading local **staged** data
 

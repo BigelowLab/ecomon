@@ -5,12 +5,14 @@
 \title{Read the staged data provided via 2022-03-03 personal communication (to modeling group)
 by Harvey Walsh}
 \usage{
-read_staged(species = "calfin", form = c("tibble", "sf")[1], ...)
+read_staged(species = "calfin", form = c("tibble", "sf")[1], scale = TRUE, ...)
 }
 \arguments{
 \item{species}{character, the species to read}
 
 \item{form}{character either 'tibble' or 'sf'}
+
+\item{scale}{boolean, should we scale units?}
 
 \item{...}{other arguments for \code{\link{staged_filename}}}
 }

@@ -86,6 +86,21 @@ ecomon_cols <- function(var_names = character()){
     x
 }
 
+#' Retrieve a table of known ecomon species and metrics
+#' 
+#' @export
+#' @param x named character vector as produced by `ecomon_cols()`
+#' @return table of `name`, `metric`
+ecomon_species = function(x = ecomon_cols()){
+  nms = names(x)
+  area = grepl("_10m2",nms, fixed = TRUE)
+  vol = grepl("_100m3", nms, fixed = TRUE)
+  sparea = strsplit(nms[area], "_") |> sapply(`[[`,1)
+  spvol = strsplit(nms[vol], "_") |> sapply(`[[`,1)
+  dplyr::tibble(name = sparea, metric = "10m2") |>
+    dplyr::bind_rows(dplyr::tibble(name = spvol, metric = "100m3"))
+}
+
 #' Read a a single ecomon data file
 #'
 #' @param filename the name of the file
@@ -110,6 +125,9 @@ read_ecomon_one <- function(filename,
 #' @param simplify logical if TRUE trim down to a simple dataset
 #' @param select_vars character, the columns to select if simplyfing.  Ignored  
 #'   unless \code{simplify = TRUE}. 
+#' @param species chr, one or more species shortnames to retrieve, or NULL to 
+#'   get them all when simplify is FALSE.  You can peruse the short names 
+#'   using `ecomon_species()` 
 #' @param form character either 'tibble' or 'sf'
 #' @return tibble or sf Points object
 read_ecomon <- function(filename = list_data(id = "0187513"),
@@ -128,12 +146,14 @@ read_ecomon <- function(filename = list_data(id = "0187513"),
                                          "btm_temp",
                                          "btm_salt",
                                          "volume_1m2"),
+                         species = NULL,
                          form = c("tibble", "sf")[1]){
   
+
   if (simplify){
     cols <- ecomon_cols(select_vars)
   } else {
-    cols <- ecomon_cols()
+      cols = ecomon_cols()
   }
   
   x <- lapply(filename, read_ecomon_one, 
@@ -141,6 +161,13 @@ read_ecomon <- function(filename = list_data(id = "0187513"),
     dplyr::bind_rows() |>
     dplyr::mutate(date = as.Date(.data$date, "%d-%b-%y"))
   
+  if (!simplify && !any(is.null(species))){
+    species_names = lapply(species, 
+                           function(sp) paste(sp, c("10m2", "100m3"), sep = "_")) |>
+      unlist()
+    cols = c(select_vars, species_names)
+    x = dplyr::select(x, dplyr::any_of(cols))
+  }
 
   if (tolower(form[1]) == 'sf'){
     x <- sf::st_as_sf(x, coords = c("lon", "lat"), crs = 4326)

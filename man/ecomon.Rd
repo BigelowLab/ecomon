@@ -2,8 +2,16 @@
 % Please edit documentation in R/ecomon-package.R
 \docType{package}
 \name{ecomon}
+\alias{ecomon-package}
 \alias{ecomon}
 \title{ecomon - manage local data of NMFS-NEFSC ecomon database}
 \description{
 Functions for reading [EcoMon](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center)
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/BigelowLab/ecomon}
+}
+
 }

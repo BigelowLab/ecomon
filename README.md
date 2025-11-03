@@ -134,17 +134,16 @@ plot(x['btm_salt'], axes = TRUE, pch = ".")
 currently v3.3, has this date range: 1977-02-13, 2021-11-15
 
 Of course, you may be interested in the actual abundance (per m^2 or per
-100m^3). Since there is just one data source at this time, it reads that
-by default.
+100m^3) for a subset of species. Since there is just one data source at
+this time, it reads that by default.
 
 ``` r
-y = read_ecomon(simplify = FALSE) |>
-  dplyr::select(1:14, dplyr::starts_with("mysids")) |>
+y = read_ecomon(simplify = FALSE, species = c("mysids", "lopame")) |>
   dplyr::glimpse()
 ```
 
     ## Rows: 32,693
-    ## Columns: 16
+    ## Columns: 18
     ## $ cruise_name  <chr> "AA8704", "AA8704", "AA8704", "AA8704", "AA8704", "AA8704…
     ## $ station      <dbl> 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 5…
     ## $ zoo_gear     <chr> "6B3", "6B3", "6B3", "6B3", "6B3", "6B3", "6B3", "6B3", "…
@@ -161,6 +160,8 @@ y = read_ecomon(simplify = FALSE) |>
     ## $ volume_1m2   <dbl> 18.91, 16.72, 12.32, 6.03, 3.50, 8.60, 9.87, 55.40, 57.48…
     ## $ mysids_10m2  <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ mysids_100m3 <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+    ## $ lopame_10m2  <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+    ## $ lopame_100m3 <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
 
 ## Reading local **staged** data
 

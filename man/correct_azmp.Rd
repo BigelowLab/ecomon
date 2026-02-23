@@ -23,16 +23,16 @@ correct_azmp(
 
 \item{stages}{str, the stages to combine.  "all" to combine all}
 
-\item{max_depth}{numbers, depths above this must be manages as per [handle_deep]}
+\item{max_depth}{numbers, depths above this must be manages as per \link{handle_deep}}
 
 \item{handle_deep}{str, one of 'drop', 'clip' or 'skip' (to skip managing deeper stations)
-`drop` will drop stations above `max_depth`, `clip` will clip stations to `max_depth` 
+\code{drop} will drop stations above \code{max_depth}, \code{clip} will clip stations to \code{max_depth}
 and any other value, like skip, will skip this drop/clip step.}
 
 \item{sorochan}{logical, if TRUE then perform filtering that includes
-stations where the tow depth is less that `max_percent_z` of station depth,
-AND excludes stations that are within `min_above_bottom`
-AND have a minimum station depth of at least `min_station_depth`}
+stations where the tow depth is less that \code{max_percent_z} of station depth,
+AND excludes stations that are within \code{min_above_bottom}
+AND have a minimum station depth of at least \code{min_station_depth}}
 
 \item{max_percent_z}{num maximum percent of tow depth relative to station depth}
 

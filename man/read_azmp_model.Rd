@@ -10,7 +10,7 @@ read_azmp_model(filename = c("Cfin_CIV_CVI", "Cfin_CV_CVI")[1])
 \item{filename}{str, one of 'Cfin_CIV_CVI' or 'Cfin_CV_CVI'}
 }
 \value{
-[mgcv::gamm()] model
+\code{\link[mgcv:gamm]{mgcv::gamm()}} model
 }
 \description{
 Read an AZMP correction model

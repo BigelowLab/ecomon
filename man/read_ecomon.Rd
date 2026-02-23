@@ -22,9 +22,9 @@ individual tables are row bound into one.}
 \item{select_vars}{character, the columns to select if simplyfing.  Ignored
 unless \code{simplify = TRUE}.}
 
-\item{species}{chr, one or more species shortnames to retrieve, or NULL to 
-get them all when simplify is FALSE.  You can peruse the short names 
-using `ecomon_species()`}
+\item{species}{chr, one or more species shortnames to retrieve, or NULL to
+get them all when simplify is FALSE.  You can peruse the short names
+using \code{ecomon_species()}}
 
 \item{form}{character either 'tibble' or 'sf'}
 }

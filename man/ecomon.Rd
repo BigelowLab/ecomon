@@ -6,12 +6,22 @@
 \alias{ecomon}
 \title{ecomon - manage local data of NMFS-NEFSC ecomon database}
 \description{
-Functions for reading [EcoMon](https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center)
+Functions for reading \href{https://www.fisheries.noaa.gov/about/northeast-fisheries-science-center}{EcoMon}
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/BigelowLab/ecomon}
+}
+
+}
+\author{
+\strong{Maintainer}: Tupper Ben \email{btupper@bigelow.org}
+
+Other contributors:
+\itemize{
+  \item Lehoux Caroline \email{caroline.lehoux@dfo-mpo.gc.ca} [contributor]
+  \item Johnson Omi \email{ojohnson@bigelow.org} [contributor]
 }
 
 }

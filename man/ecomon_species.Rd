@@ -7,10 +7,10 @@
 ecomon_species(x = ecomon_cols())
 }
 \arguments{
-\item{x}{named character vector as produced by `ecomon_cols()`}
+\item{x}{named character vector as produced by \code{ecomon_cols()}}
 }
 \value{
-table of `name`, `metric`
+table of \code{name}, \code{metric}
 }
 \description{
 Retrieve a table of known ecomon species and metrics

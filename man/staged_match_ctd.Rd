@@ -16,12 +16,12 @@ staged_match_ctd(
 
 \item{ctd}{tibble of ctd data}
 
-\item{form}{character, the form as a named 'list' (each element one data frame) or 
+\item{form}{character, the form as a named 'list' (each element one data frame) or
 a 'tibble' where all results are bound in one table}
 }
 \value{
-tibble of ctd data, possibly empty, for matches by cruise 
-  or a list of the same
+tibble of ctd data, possibly empty, for matches by cruise
+or a list of the same
 }
 \description{
 Given a cruise data frame of staged data with \code{cruise_name}

@@ -1,0 +1,148 @@
+---
+title: "AZMP Correction"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(ecomon)
+  library(dplyr)
+  library(ggplot2)
+  library(ggthemes)
+  library(mgcv)
+})
+```
+
+## Background AZMP-Ecomon correction models
+
+From personal communication from  [Caroline Lehoux](mailto:Caroline.Lehoux@dfo-mpo.gc.ca>)
+
+
+### Files 
+
+Two `mgcv::gamm()` model files (use `readRDS(filename)`) specifically for correcting *C fin* abundance in samples taken from sites with `< 500m` depth.
+
++ Cfin_CIV_CVIgamms3_4_remove01.rds
+
++ Cfin_CV_CVIgamms3_4_remove01.rds
+
+```{r read_model}
+model = read_azmp_model(filename = "Cfin_CIV_CVI")
+```
+
+One example data set we'll use to verify our setup. Note that the data is actually Gulf of Maine ecomon data, but used to implement the AZMP correction.
+
+```{r read_azmp_data}
+x = read_azmp_example() |>
+  glimpse()
+```
+
+We assume the following meanings...
+
++ `ZStation` station depth
++ `ZMax` tow depth
++ `percZ_stn` fraction of tow depth relative to station depth
++ `ind.m2` abundance of Cfin_IV_VI
++ `ind.m2_total` not sure
+
+### Methodology
+
+A multi-step process including..
+
+#### Manage depths `> 500m`
+
+```{r deep_stations}
+max_depth = 500
+handle_deep = c("drop", "clip")[1]
+if(tolower(handle_deep) == "drop"){
+  x = x |>
+    filter(Zstation < max_depth)
+} else if(tolower(handle_deep) == "clip") {
+  x = x |>
+    mutate(Zstation=ifelse(Zstation > max_depth, max_depth, Zstation)) 
+}
+```
+
+#### Sorochan criteria - flag data to correct
+
+"percZ_stn < 95% and > 15m above bottom. because stations sampled less than 200m not always sampled accurately. minimum depth in GAM is 40 so avoiding extrapolation."
+ 
+```{r sorochan}
+sorochan = TRUE
+max_percent_z = 95
+min_above_bottom = 15
+min_station_depth = 40
+if (sorochan){
+  x = x |>
+    mutate(to_correct = percZ_stn < max_percent_z/100 & 
+                        (Zstation - ZMax) > min_above_bottom & 
+                        Zstation > min_station_depth )
+}
+```
+
+#### Predict and correct flagged data
+
+```{r correct, warning = FALSE}
+
+# for clarity, these are the records to correct, trimmed to the columns required
+y = x |>
+  filter(to_correct) |>
+  select(all_of(c("percZ_stn", "Zstation", "ID", "fMonth")))
+
+# here we apply 
+x = x |>  
+  mutate(predicted_pcum = ifelse(to_correct, 
+                                 predict(model, y, 
+                                         type="response", 
+                                         exclude ='s(ID)', 
+                                         newdata.guaranteed = FALSE), 
+                                 1),
+         corrected_CIV_CVI_m2 = ind.m2/predicted_pcum) |>
+  glimpse()
+```
+
+
+```{r plot, warning = FALSE}
+ggplot(x, 
+       mapping = aes(x=(ind.m2), 
+                     y=(corrected_CIV_CVI_m2)))+
+  geom_point(mapping = aes(shape=to_correct, col=Zstation)) +
+  facet_wrap(~Month) +
+  theme_few() +
+  scale_x_continuous(trans="log10", name="Observed CIV-CVI m2")+
+  scale_y_continuous(trans="log10", name="Corrected CIV-CVI m2")+
+  scale_color_viridis_c(option="turbo")
+```
+
+
+# Usage in the ecomon package
+
+Read in staged ecomon data
+```{r ecomon}
+x = read_staged(species = "calfin", form = "tibble") |>
+  glimpse()
+```
+
+Correct stages IV-VI accepting all defaults
+
+```{r ecomon_correct}
+xc = correct_azmp(x, stages = c("c4_m2", "c5_m2", "c6_m2")) |>
+  glimpse()
+```
+
+Note the `.ind_m2` and `.corrected_ind_m2`.
+
+```{r plot_correction, warning = FALSE}
+ggplot(xc, 
+       mapping = aes(x=.ind_m2, 
+                     y=.corrected_ind_m2))+
+  geom_point(mapping = aes(shape=.corrected, col=sta_depth)) +
+  facet_wrap(~Month) +
+  theme_few() +
+  scale_x_continuous(trans="log10", name="Observed CIV-CVI m2")+
+  scale_y_continuous(trans="log10", name="Corrected CIV-CVI m2")+
+  scale_color_viridis_c(option="turbo")
+```
+ 

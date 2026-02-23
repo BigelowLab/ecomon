@@ -13,9 +13,9 @@ add_biomass(
 \arguments{
 \item{x}{tibble or sf, staged data from ecomon}
 
-\item{region}{character, the region for application - see \code{\link[Sorochan]}}
+\item{region}{character, the region for application - see Sorochan}
 
-\item{params}{tibble, parameters as per \code{\link{Sorochan}}}
+\item{params}{tibble, parameters as per Sorochan}
 }
 \value{
 the input with an added column called "biomass"

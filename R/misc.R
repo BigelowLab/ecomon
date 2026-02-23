@@ -2,8 +2,8 @@
 #' 
 #' @export
 #' @param x tibble or sf, staged data from ecomon
-#' @param region character, the region for application - see \code{\link[Sorochan]}
-#' @param params tibble, parameters as per \code{\link{Sorochan}}
+#' @param region character, the region for application - see Sorochan
+#' @param params tibble, parameters as per Sorochan
 #' @return the input with an added column called "biomass"
 add_biomass <- function(x = read_staged(form = "sf"),
                         region = c("GoM-GBK, SS", "All regions", "GSL, NLS", "southwest GSL")[1],

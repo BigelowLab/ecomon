@@ -4,10 +4,19 @@
 \alias{ecomon_cols}
 \title{Retrieve a named vector of column names and types for ecomon}
 \usage{
-ecomon_cols(var_names = character())
+ecomon_cols(
+  var_names = character(),
+  core = FALSE,
+  core_vars = c("cruise_name", "station", "zoo_gear", "ich_gear", "lat", "lon", "date",
+    "time", "depth", "sfc_temp", "sfc_salt", "btm_temp", "btm_salt", "volume_1m2")
+)
 }
 \arguments{
 \item{var_names}{character, identifies variable names to keep, all other marked to skip}
+
+\item{core}{logical if TRUE return just the core variables (ids, location, conditions)}
+
+\item{core_vars}{chr the names of the core data columns}
 }
 \value{
 listing of column type definitions

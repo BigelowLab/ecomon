@@ -2,8 +2,15 @@
 #'
 #' @export
 #' @param var_names character, identifies variable names to keep, all other marked to skip
+#' @param core logical if TRUE return just the core variables (ids, location, conditions)
+#' @param core_vars chr the names of the core data columns
 #' @return listing of column type definitions
-ecomon_cols <- function(var_names = character()){
+ecomon_cols <- function(var_names = character(),
+                        core = FALSE,
+                        core_vars = c("cruise_name" , "station", "zoo_gear", 
+                                      "ich_gear", "lat", "lon", "date", "time" ,
+                                      "depth" , "sfc_temp", "sfc_salt", "btm_temp",
+                                      "btm_salt", "volume_1m2")){
     x = c(cruise_name = "c", station = "n", zoo_gear = "c", ich_gear = "c", 
           lat = "n", lon = "n", date = "c", time = "t", depth = "n", sfc_temp = "n", 
           sfc_salt = "n", btm_temp = "n", btm_salt = "n", volume_1m2 = "n", 
@@ -78,6 +85,11 @@ ecomon_cols <- function(var_names = character()){
           syaspp_100m3 = "n", botspp_100m3 = "n", hipobl_100m3 = "n", parden_100m3 = "n", 
           pseame_100m3 = "n", hippla_100m3 = "n", limfer_100m3 = "n", glycyn_100m3 = "n", 
           scoaqu_100m3 = "n", sypspp_100m3 = "n", lopame_100m3 = "n")
+    
+    if (core){
+      return(x[cor_vars])
+    }
+    
     if (length(var_names) > 0){
       ix <- names(x) %in% var_names
       x[names(x)[!ix]] <- "-"

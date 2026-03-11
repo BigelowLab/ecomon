@@ -5,7 +5,7 @@
 \title{Read a ecomon data - trim to bare necessities}
 \usage{
 read_ecomon(
-  filename = list_data(id = "0187513"),
+  filename = get_data_path("0187513", "3.11", "EcoMon_Plankton_Data_v3_11.csv"),
   simplify = TRUE,
   select_vars = c("cruise_name", "station", "zoo_gear", "ich_gear", "lat", "lon", "date",
     "time", "depth", "sfc_temp", "sfc_salt", "btm_temp", "btm_salt", "volume_1m2"),

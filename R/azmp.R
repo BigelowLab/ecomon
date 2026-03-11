@@ -55,6 +55,7 @@ correct_azmp = function(x = read_staged(species = "calfin", form = "tibble"),
   
   if(FALSE){
     x = read_staged(species = "calfin", form = "tibble")
+    x = scale_ecomon()
     model = read_azmp_model(filename = 'Cfin_CIV_CVI')
     stages = c("c4_m2", "c5_m2", "c6_m2")
     max_depth = 500
@@ -68,12 +69,17 @@ correct_azmp = function(x = read_staged(species = "calfin", form = "tibble"),
     stop("please install the mgcv R package before using this function")
   }
   
+  is_stages = all(stages %in% colnames(x))
+  if (!all(stages %in% colnames(x))){
+    
+  } else {
+  
   x = x |>
     dplyr::mutate(Month = as.numeric(format(date, format="%m")),
                   fMonth = as.factor(Month), 
                   percZ_stn = (tow_depth/sta_depth))
-  
-  
+  }
+
   # handle deep locations: drop, clip or continue with deep stations
   if(tolower(handle_deep) == "drop"){
     x = x |>

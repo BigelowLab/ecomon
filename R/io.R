@@ -118,14 +118,20 @@ ecomon_species = function(x = ecomon_cols()){
 #' @param filename the name of the file
 #' @param skip the number of header lines to skip
 #' @param col_types a vector or compact character string used to declare input column types
+#' @param to_lower_case logocal, if TRUE make the columns names lower case (this
+#'   make v3.11 the same as earlier versions)
 #' @return tibble
 read_ecomon_one <- function(filename, 
                             skip  = 0, 
-                            col_types = paste(ecomon_cols(), collapse = "")){
-  suppressWarnings(readr::read_csv(filename, 
-                                   skip = skip,
-                                   col_types = col_types,
-                                   show_col_types = FALSE)) 
+                            col_types = paste(ecomon_cols(), collapse = ""),
+                            to_lower_case = TRUE){
+  x = readr::read_csv(filename, 
+                      skip = skip,
+                      na = c("", "NA", "NaN"),
+                      col_types = col_types,
+                      show_col_types = FALSE) 
+  if (to_lower_case) colnames(x) <- tolower(colnames(x))
+  x
 }
 
 
@@ -142,7 +148,7 @@ read_ecomon_one <- function(filename,
 #'   using `ecomon_species()` 
 #' @param form character either 'tibble' or 'sf'
 #' @return tibble or sf Points object
-read_ecomon <- function(filename = list_data(id = "0187513"),
+read_ecomon <- function(filename = get_data_path("0187513", "3.11", "EcoMon_Plankton_Data_v3_11.csv"),
                          simplify = TRUE,
                          select_vars = c("cruise_name",
                                          "station",
@@ -163,9 +169,9 @@ read_ecomon <- function(filename = list_data(id = "0187513"),
   
 
   if (simplify){
-    cols <- ecomon_cols(select_vars)
+    cols = ecomon_cols(select_vars)
   } else {
-      cols = ecomon_cols()
+    cols = ecomon_cols()
   }
   
   x <- lapply(filename, read_ecomon_one, 

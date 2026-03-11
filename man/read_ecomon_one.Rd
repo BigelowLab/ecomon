@@ -7,7 +7,8 @@
 read_ecomon_one(
   filename,
   skip = 0,
-  col_types = paste(ecomon_cols(), collapse = "")
+  col_types = paste(ecomon_cols(), collapse = ""),
+  to_lower_case = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,9 @@ read_ecomon_one(
 \item{skip}{the number of header lines to skip}
 
 \item{col_types}{a vector or compact character string used to declare input column types}
+
+\item{to_lower_case}{logocal, if TRUE make the columns names lower case (this
+make v3.11 the same as earlier versions)}
 }
 \value{
 tibble

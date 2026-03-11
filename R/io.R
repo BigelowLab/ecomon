@@ -167,7 +167,26 @@ read_ecomon <- function(filename = get_data_path("0187513", "3.11", "EcoMon_Plan
                          species = NULL,
                          form = c("tibble", "sf")[1]){
   
-
+  if(FALSE){
+    filename = get_data_path("0187513", "3.11", "EcoMon_Plankton_Data_v3_11.csv")
+    simplify = TRUE
+    select_vars = c("cruise_name",
+                    "station",
+                    "zoo_gear",
+                    "ich_gear",
+                    "lat",
+                    "lon",
+                    "date",
+                    "time",
+                    "depth",
+                    "sfc_temp",
+                    "sfc_salt",
+                    "btm_temp",
+                    "btm_salt",
+                    "volume_1m2")
+    species = NULL
+    form = c("tibble", "sf")[1]
+  }
   if (simplify){
     cols = ecomon_cols(select_vars)
   } else {
